@@ -4,6 +4,9 @@ import unidecode
 def unaccent(original_string):
     return unidecode.unidecode(original_string)
 
+def remove_time(original_string):
+    return original_string[:-9]
+
 if __name__ == "__main__":
     locations_raw = pandas.read_csv("locations.csv", sep='\t', header=None, names=[
         "ID_0",
@@ -54,4 +57,6 @@ if __name__ == "__main__":
     ])
     print(reports_raw.head(5))
     reports_raw["location"] = reports_raw["location"].apply(unaccent)
+    reports_raw["report_date"] = reports_raw["report_date"].apply(remove_time)
+    print(reports_raw["report_date"])
     reports_raw.to_csv('all_reports-cleaned.csv', index=False)
